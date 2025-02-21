@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Traffic Violations & Driver Behavior</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 90%;
+            margin: 30px auto;
+            background: white;
+            padding: 20px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background: #007bff;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background: #f9f9f9;
+        }
+
+        img {
+            max-width: 100px;
+            border-radius: 5px;
+        }
+
+        .upload-link {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            padding: 10px;
+            background: #28a745;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+
+        .upload-link:hover {
+            background: #218838;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Traffic Violations & Driver Behavior</h2>
+
+        <h3>Traffic Violations</h3>
+        <table>
+            <tr>
+                <th>#</th>
+                <th>Violation Type</th>
+                <th>Timestamp</th>
+                <th>Location</th>
+                <th>Vehicle Number</th>
+                <th>Detected By</th>
+                <th>Image</th>
+            </tr>
+            {% for violation in violations %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ violation.violation_type }}</td>
+                <td>{{ violation.timestamp }}</td>
+                <td>{{ violation.location }}</td>
+                <td>{{ violation.vehicle_number|default:"N/A" }}</td>
+                <td>{{ violation.detected_by.username|default:"Unknown" }}</td>
+                <td>
+                    {% if violation.image %}
+                        <img src="{{ violation.image.url }}" alt="Violation Image">
+                    {% else %}
+                        No Image
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+
+        <h3>Driver Behavior Incidents</h3>
+        <table>
+            <tr>
+                <th>#</th>
+                <th>Behavior Type</th>
+                <th>Timestamp</th>
+                <th>Location</th>
+                <th>Vehicle Number</th>
+                <th>Detected By</th>
+                <th>Image</th>
+            </tr>
+            {% for behavior in driver_behaviors %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ behavior.behavior_type }}</td>
+                <td>{{ behavior.timestamp }}</td>
+                <td>{{ behavior.location }}</td>
+                <td>{{ behavior.vehicle_number|default:"N/A" }}</td>
+                <td>{{ behavior.detected_by.username|default:"Unknown" }}</td>
+                <td>
+                    {% if behavior.image %}
+                        <img src="{{ behavior.image.url }}" alt="Behavior Image">
+                    {% else %}
+                        No Image
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+
+        <a href='#' class="upload-link">Upload Another File</a>
+    </div>
+
+</body>
+</html>

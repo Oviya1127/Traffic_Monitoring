@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Object Tracking & Classification</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 90%;
+            margin: 30px auto;
+            background: white;
+            padding: 20px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background: #007bff;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background: #f9f9f9;
+        }
+
+        img {
+            max-width: 100px;
+            border-radius: 5px;
+        }
+
+        .refresh-link {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            padding: 10px;
+            background: #28a745;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+
+        .refresh-link:hover {
+            background: #218838;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Object Tracking & Classification</h2>
+
+        <table>
+            <tr>
+                <th>#</th>
+                <th>Object Type</th>
+                <th>Confidence (%)</th>
+                <th>Location</th>
+                <th>Timestamp</th>
+                <th>Classification</th>
+                <th>Image</th>
+            </tr>
+            {% for detected in detected_objects %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ detected.object_type }}</td>
+                <td>{{ detected.confidence|floatformat:2 }}</td>
+                <td>{{ detected.location }}</td>
+                <td>{{ detected.timestamp }}</td>
+                <td>{{ detected.new_field }}</td>
+                <td>
+                    {% if detected.image %}
+                        <img src="{{ detected.image.url }}" alt="Detected Image">
+                    {% else %}
+                        No Image
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+
+        <a href="{% url 'object_tracking' %}" class="refresh-link">Refresh Data</a>
+    </div>
+
+</body>
+</html>

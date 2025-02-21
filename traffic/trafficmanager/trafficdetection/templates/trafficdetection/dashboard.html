@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Traffic Detection Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .container {
+            width: 80%;
+            margin: 50px auto;
+            background: white;
+            padding: 20px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            margin: 20px 0;
+        }
+
+        .stat-box {
+            background: #007bff;
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            width: 30%;
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .stat-box:nth-child(2) {
+            background: #dc3545;
+        }
+
+        .stat-box:nth-child(3) {
+            background: #28a745;
+        }
+
+        h3 {
+            color: #444;
+            margin-top: 20px;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 5px;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        ul li {
+            background: #fff;
+            margin: 8px 0;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .timestamp {
+            color: #777;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Traffic Detection Dashboard</h2>
+
+        <div class="stats">
+            <div class="stat-box">Detections: {{ total_detections }}</div>
+            <div class="stat-box">Violations: {{ total_violations }}</div>
+            <div class="stat-box">Driver Incidents: {{ total_driver_incidents }}</div>
+        </div>
+
+        <h3>Recent Detections</h3>
+        <ul>
+            {% for detection in recent_detections %}
+                <li>
+                    <span>{{ detection.object_type }}</span>
+                    <span class="timestamp">{{ detection.timestamp }}</span>
+                </li>
+            {% endfor %}
+        </ul>
+
+        <h3>Recent Violations</h3>
+        <ul>
+            {% for violation in recent_violations %}
+                <li>
+                    <span>{{ violation.violation_type }}</span>
+                    <span class="timestamp">{{ violation.timestamp }}</span>
+                </li>
+            {% endfor %}
+        </ul>
+
+        <h3>Recent Driver Behaviors</h3>
+        <ul>
+            {% for behavior in recent_behaviors %}
+                <li>
+                    <span>{{ behavior.behavior_type }}</span>
+                    <span class="timestamp">{{ behavior.timestamp }}</span>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+</body>
+</html>

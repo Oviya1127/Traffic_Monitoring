@@ -1,0 +1,52 @@
+{% extends 'trafficdetection/base.html' %}
+
+{% block content %}
+<div class="container text-center mt-4">
+    <h2>Live Traffic & Driver Monitoring</h2>
+
+    <!-- Video Stream -->
+    <img src="{% url 'video_feed' %}" width="70%" class="border rounded shadow mt-3" alt="Live Video Feed">
+
+    <!-- Live Alerts -->
+    <div class="mt-4">
+        <h4 class="text-danger">Real-time Alerts</h4>
+        <ul id="alertsList" class="list-group"></ul>
+    </div>
+</div>
+
+<script>
+    function fetchAlerts() {
+        fetch("{% url 'alerts' %}")
+            .then(response => response.json())
+            .then(data => {
+                let alertsList = document.getElementById("alertsList");
+                alertsList.innerHTML = "";
+
+                if (data.violations.length === 0 && data.behaviors.length === 0) {
+                    let li = document.createElement("li");
+                    li.className = "list-group-item list-group-item-info";
+                    li.textContent = "No alerts at the moment.";
+                    alertsList.appendChild(li);
+                } else {
+                    data.violations.forEach(v => {
+                        let li = document.createElement("li");
+                        li.className = "list-group-item list-group-item-danger";
+                        li.textContent = `Violation: ${v.violation_type} - ${new Date(v.timestamp).toLocaleString()}`;
+                        alertsList.appendChild(li);
+                    });
+
+                    data.behaviors.forEach(b => {
+                        let li = document.createElement("li");
+                        li.className = "list-group-item list-group-item-warning";
+                        li.textContent = `Driver Alert: ${b.behavior_type} - ${new Date(b.timestamp).toLocaleString()}`;
+                        alertsList.appendChild(li);
+                    });
+                }
+            })
+            .catch(error => console.error("Error fetching alerts:", error));
+    }
+
+    setInterval(fetchAlerts, 5000);
+    fetchAlerts(); // Initial fetch
+</script>
+{% endblock %}
